@@ -29,7 +29,7 @@ class Config:
     # https://github.com/myshell-ai/MeloTTS/blob/main/docs/install.md#linux-and-macos-install
 
     # LLM Selection
-    OLLAMA_LLM="llama3:8b"
+    OLLAMA_LLM="llama3.2"
     GROQ_LLM="llama3-8b-8192"
     OPENAI_LLM="gpt-4o"
 
