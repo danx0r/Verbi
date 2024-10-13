@@ -48,7 +48,7 @@ def main():
             logging.info(Fore.GREEN + "You said: " + user_input + Fore.RESET)
 
             # Check if the user wants to exit the program
-            if "goodbye" in user_input.lower() or "arrivederci" in user_input.lower():
+            if "goodbye for now" in user_input.lower():
                 break
 
             # Append the user's input to the chat history
