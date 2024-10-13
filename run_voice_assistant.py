@@ -25,7 +25,7 @@ def main():
     Main function to run the voice assistant.
     """
     chat_history = [
-        {"role": "system", "content": """ You are a helpful Assistant called Verbi. 
+        {"role": "system", "content": """ You are a helpful Assistant called Stumpy. 
          You are friendly and fun and you will help the users with their requests.
          Your answers are short and concise. """}
     ]
@@ -37,7 +37,7 @@ def main():
 
             # Get the API key for transcription
             transcription_api_key = get_transcription_api_key()
-            
+            print ("DEBUG KEY:", transcription_api_key)
             # Transcribe the audio file
             user_input = transcribe_audio(Config.TRANSCRIPTION_MODEL, transcription_api_key, Config.INPUT_AUDIO, Config.LOCAL_MODEL_PATH)
 
@@ -74,6 +74,7 @@ def main():
             tts_api_key = get_tts_api_key()
 
             # Convert the response text to speech and save it to the appropriate file
+            print ("TTS:", Config.TTS_MODEL, tts_api_key, response_text, output_file, Config.LOCAL_MODEL_PATH)
             text_to_speech(Config.TTS_MODEL, tts_api_key, response_text, output_file, Config.LOCAL_MODEL_PATH)
 
             # Play the generated speech audio

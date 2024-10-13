@@ -4,6 +4,7 @@ from melo.api import TTS
 from config import Config
 import torch
 import uuid
+import time
 
 app = FastAPI()
 
@@ -66,7 +67,10 @@ def generate_audio(request: TextToSpeechRequest):
         output_filename = request.filename
         
         # Generate the audio file
+        print ("START PROFILING---------------------------------------------------------------------------------------------")
+        t0 = time.time()
         model.tts_to_file(request.text, speaker_ids[request.accent], output_filename, speed=request.speed)
+        print ("SECONDS:", time.time()-t0)
         
         return {"message": "Audio file generated successfully", "file_path": output_filename}
     except Exception as e:

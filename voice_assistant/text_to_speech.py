@@ -1,6 +1,5 @@
 # voice_assistant/text_to_speech.py
 import logging
-import json
 import pyaudio
 import elevenlabs
 import soundfile as sf
@@ -9,8 +8,12 @@ from openai import OpenAI
 from deepgram import DeepgramClient, SpeakOptions
 from elevenlabs.client import ElevenLabs
 from cartesia import Cartesia
+from TTS.api import TTS                     #coqi-tts, not that other monstrosity
 
 from voice_assistant.local_tts_generation import generate_audio_file_melotts
+
+#Do this once
+tts = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False)
 
 def text_to_speech(model: str, api_key:str, text:str, output_file_path:str, local_model_path:str=None):
     """
@@ -105,6 +108,11 @@ def text_to_speech(model: str, api_key:str, text:str, output_file_path:str, loca
         elif model == 'local':
             with open(output_file_path, "wb") as f:
                 f.write(b"Local TTS audio data")
+        
+        elif model == 'coqitts':
+            with open(output_file_path, "wb") as f:
+                print ("TEXT:", text, "FILE:", output_file_path)
+                tts.tts_to_file(text, speaker="p236", file_path=output_file_path)
         
         else:
             raise ValueError("Unsupported TTS model")
