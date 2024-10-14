@@ -112,6 +112,15 @@ def text_to_speech(model: str, api_key:str, text:str, output_file_path:str, loca
         elif model == 'coqitts':
             with open(output_file_path, "wb") as f:
                 print ("TEXT:", text, "FILE:", output_file_path)
+                commands = []
+                for i in range(len(text)):
+                    if text[i]=='<':
+                        j = i + text[i+1:].find('>')
+                        if j > 0:
+                            cmd = text[i+1:j+1]
+                            commands.append(cmd)
+                print ("ANGLES:", text.count('<'), "COMMANDS:", commands)
+                        
                 tts.tts_to_file(text, speaker="p236", file_path=output_file_path)
         
         else:
