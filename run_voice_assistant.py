@@ -38,7 +38,7 @@ def main():
 
             # Get the API key for transcription
             transcription_api_key = get_transcription_api_key()
-            print ("DEBUG KEY:", transcription_api_key)
+            
             # Transcribe the audio file
             user_input = transcribe_audio(Config.TRANSCRIPTION_MODEL, transcription_api_key, Config.INPUT_AUDIO, Config.LOCAL_MODEL_PATH)
 
