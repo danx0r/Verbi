@@ -15,6 +15,18 @@ from voice_assistant.local_tts_generation import generate_audio_file_melotts
 #Do this once
 tts = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False)
 
+def extract_commands(s):
+    text = ""
+    commands = []
+    for a in s.split("<"):
+        b = a.split(">")
+        if len(b) == 1:
+            text += b[0] + " "
+        else:
+            text += b[1] + " "
+            commands.append(b[0])
+    return text.strip(), commands
+
 def text_to_speech(model: str, api_key:str, text:str, output_file_path:str, local_model_path:str=None):
     """
     Convert text to speech using the specified model.
@@ -111,16 +123,9 @@ def text_to_speech(model: str, api_key:str, text:str, output_file_path:str, loca
         
         elif model == 'coqitts':
             with open(output_file_path, "wb") as f:
-                print ("TEXT:", text, "FILE:", output_file_path)
-                commands = []
-                for i in range(len(text)):
-                    if text[i]=='<':
-                        j = i + text[i+1:].find('>')
-                        if j > 0:
-                            cmd = text[i+1:j+1]
-                            commands.append(cmd)
+                # print ("TEXT:", text, "FILE:", output_file_path)
+                text, commands = extract_commands(text)
                 print ("ANGLES:", text.count('<'), "COMMANDS:", commands)
-                        
                 tts.tts_to_file(text, speaker="p236", file_path=output_file_path)
         
         else:
