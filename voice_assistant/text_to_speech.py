@@ -13,7 +13,11 @@ from TTS.api import TTS                     #coqi-tts, not that other monstrosit
 from voice_assistant.local_tts_generation import generate_audio_file_melotts
 
 #Do this once
-tts = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False)
+try:
+    tts = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False, gpu=True)
+except:
+    print ("tts init failed, assuming no gpu")
+    tts = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False, gpu=False)
 
 def extract_commands(s):
     text = ""

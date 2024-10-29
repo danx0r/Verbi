@@ -32,15 +32,20 @@ def main():
     ]
 
     while True:
+        t0 = time.time()
         try:
+            print ("PROFILE A", time.time()-t0)
             # Record audio from the microphone and save it as 'test.wav'
             record_audio(Config.INPUT_AUDIO)
+            print ("PROFILE B    ", time.time()-t0)
 
             # Get the API key for transcription
             transcription_api_key = get_transcription_api_key()
+            print ("PROFILE C ", time.time()-t0)
             
             # Transcribe the audio file
             user_input = transcribe_audio(Config.TRANSCRIPTION_MODEL, transcription_api_key, Config.INPUT_AUDIO, Config.LOCAL_MODEL_PATH)
+            print ("PROFILE D ", time.time()-t0)
 
             # Check if the transcription is empty and restart the recording if it is. This check will avoid empty requests if vad_filter is used in the fastwhisperapi.
             if not user_input:
@@ -48,6 +53,7 @@ def main():
                 continue
             logging.info(Fore.GREEN + "You said: " + user_input + Fore.RESET)
 
+            print ("PROFILE E ", time.time()-t0)
             # Check if the user wants to exit the program
             if "goodbye for now" in user_input.lower():
                 break
@@ -57,9 +63,11 @@ def main():
 
             # Get the API key for response generation
             response_api_key = get_response_api_key()
+            print ("PROFILE F ", time.time()-t0)
 
             # Generate a response
             response_text = generate_response(Config.RESPONSE_MODEL, response_api_key, chat_history, Config.LOCAL_MODEL_PATH)
+            print ("PROFILE G ", time.time()-t0)
             logging.info(Fore.CYAN + "Response: " + response_text + Fore.RESET)
 
             # Append the assistant's response to the chat history
@@ -74,15 +82,18 @@ def main():
             # Get the API key for TTS
             tts_api_key = get_tts_api_key()
 
+            print ("PROFILE H ", time.time()-t0)
             # Convert the response text to speech and save it to the appropriate file
             print ("TTS:", Config.TTS_MODEL, tts_api_key, response_text, output_file, Config.LOCAL_MODEL_PATH)
             text_to_speech(Config.TTS_MODEL, tts_api_key, response_text, output_file, Config.LOCAL_MODEL_PATH)
+            print ("PROFILE I ", time.time()-t0)
 
             # Play the generated speech audio
             if Config.TTS_MODEL=="cartesia":
                 pass
             else:
                 play_audio(output_file)
+            print ("PROFILE J ", time.time()-t0)
             
             # Clean up audio files
             # delete_file(Config.INPUT_AUDIO)
