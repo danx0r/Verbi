@@ -15,6 +15,7 @@ from voice_assistant.local_tts_generation import generate_audio_file_melotts
 #Do this once
 try:
     tts = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False, gpu=True)
+    print ("using gpu for tts")
 except:
     print ("tts init failed, assuming no gpu")
     tts = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False, gpu=False)
